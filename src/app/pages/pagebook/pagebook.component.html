@@ -1,0 +1,227 @@
+<div class="datetime container" style="font-size: 20px;" style="margin-top: 10px;">
+  <div class="row">
+    <div class="col-sm rowdate">
+      <form [formGroup]="start_Date" (ngSubmit)="onSubmit()">
+        <input type="datetime-local" formControlName="selectDate" (change)="start_date_onchange()">
+      </form>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm rowdate">
+      <form [formGroup]="end_Date" (ngSubmit)="onSubmit()">
+        <input type="datetime-local" formControlName="end_Date">
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" style="width: 100%;margin-bottom: 25px;margin-top: 20px;">
+  จองคิว +
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">จองคิว</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="bookForm" (ngSubmit)="bookSubmit()">
+          <div class="mb-3">
+            <label for="startTime" class="form-label">วันที่เริ่ม</label>
+            <input type="datetime-local" class="form-control" id="startTime" aria-describedby="emailHelp" formControlName="start_datetime" (change)="bookstartdateChange()">
+          </div>
+          <div class="mb-3">
+            <label for="startTime" class="form-label">วันที่สิ้นสุด</label>
+            <input type="datetime-local" class="form-control" id="startTime" aria-describedby="emailHelp" formControlName="end_datetime">
+          </div>
+          <div class="mb-3">
+            <label for="cusname"  class="form-label">ชื่อ</label>
+            <input type="text" (paste)="onPasteEvent($event)" autofocus class="form-control" id="cusname" placeholder="ชื่อ" formControlName="cus_name">
+          </div>
+          <div class="mb-3">
+            <label for="amount" class="form-label">จำนวนคน</label>
+            <input type="number" class="form-control" id="amount" placeholder="ชื่อ" formControlName="amount">
+          </div>
+          <div class="mb-3">
+            <label for="tel" class="form-label">เบอร์</label>
+            <input type="tel"  class="form-control" (paste)="onPasteEventTel($event)" id="tel" formControlName="tel">
+          </div>
+          <div class="mb-3">
+            <label for="detail" class="form-label">รายละเอียด</label>
+            <input type="text"  class="form-control" id="detail" formControlName="detail">
+          </div>
+          <select class="form-select" aria-label="Default select example" formControlName="status_own">
+            <option selected>โอนจอง</option>
+            <option value="ไม่โอนจอง">ไม่โอนจอง</option>
+          </select>
+          <button type="submit" (click)="bookconfrim()" style="margin-top: 10px;width: 100%;display: flex;flex-direction: row;justify-content: center;" class="btn btn-primary">
+            <div class={{show}}>
+              บันทึก
+            </div>
+            <div class={{load_show}}  role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </button>
+          
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="book-table font" style="font-weight: bold;">
+    <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">วันที่</th>
+            <th scope="col">ชื่อ</th>
+            <th scope="col">เบอร์โทร</th>
+            <th scope="col">detail</th>
+            <th scope="col">จำนวน</th>
+            <th scope="col">โอนจอง</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of book; track $index)
+           {
+            <tr>
+            <td>{{ item.start_datetime | date: 'dd/MM/yyyy HH:mm' }}</td>
+            <td>{{item.cus_name}}</td>
+            <td><a [href]="'tel:'+item.tel">{{item.tel}}</a></td>
+            <td>{{item.detail}}</td>
+            <td>{{item.amount}}</td>
+            <td>{{item.status_own}}</td>
+            <td>
+              <!-- Button trigger modal -->
+        <button type="button" 
+              class="btn btn-danger font" 
+              [id]="'book' + item.id" 
+              data-bs-toggle="modal" 
+              [attr.data-bs-target]="'#' + item.id" style="width: 100%;">
+        ลบ
+        </button>
+        <button type="button" 
+              class="btn btn-warning font" 
+              [id]="'book' + item.id" 
+              data-bs-toggle="modal" 
+              [attr.data-bs-target]="'#edit' + item.id" style="width: 100%;margin-top: 5px;"
+              (click)="editBook(item.id)"
+              >
+        แก้ไข
+        </button>
+
+              <!-- Modalลบ -->
+              <div class="modal fade" 
+                  [id]='item.id' 
+                  tabindex="-1" 
+                  aria-labelledby="exampleModalLabel" 
+                  aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">ลบการจอง</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body font-modal">
+                      ยืนยันที่จะลบ
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
+                      
+                      <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="deletebook(item.id)">
+                        <div class={{load_show}}  role="status">
+                          <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <div class={{show}}>
+                          ลบ
+                        </div>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Modalแก้ไข -->
+              <div class="modal fade" 
+                  [id]="'edit'+item.id" 
+                  tabindex="-1" 
+                  aria-labelledby="exampleModalLabel" 
+                  aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">{{item.cus_name}}</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <form [formGroup]="bookEdit" (ngSubmit)="bookSubmit()">
+                        <div class="mb-3">
+                          <label for="startTime" class="form-label">วันที่เริ่ม</label>
+                          <input type="datetime-local" [value]='item.start_Date' class="form-control" id="startTime" aria-describedby="emailHelp" formControlName="start_datetime" (change)="bookstartdateEditChange()">
+                        </div>
+                        <div class="mb-3">
+                          <label for="startTime" class="form-label">วันที่สิ้นสุด</label>
+                          <input type="datetime-local" class="form-control" id="startTime" aria-describedby="emailHelp" formControlName="end_datetime">
+                        </div>
+                        <div class="mb-3">
+                          <label for="cusname" class="form-label">ชื่อ</label>
+                          <input type="text" class="form-control" id="cusname" placeholder="ชื่อ" formControlName="cus_name">
+                        </div>
+                        <div class="mb-3">
+                          <label for="amount" class="form-label">จำนวนคน</label>
+                          <input type="number" class="form-control" id="amount" placeholder="ชื่อ" formControlName="amount">
+                        </div>
+                        <div class="mb-3">
+                          <label for="tel" class="form-label">เบอร์</label>
+                          <input type="tel"  class="form-control" id="tel" formControlName="tel">
+                        </div>
+                        <div class="mb-3">
+                          <label for="detail" class="form-label">รายละเอียด</label>
+                          <input type="text"  class="form-control" id="detail" formControlName="detail">
+                        </div>
+                        <select class="form-select" aria-label="Default select example" formControlName="status_own">
+                          <option selected>โอนจอง</option>
+                          <option value="ไม่โอนจอง">ไม่โอนจอง</option>
+                        </select>
+                        <button type="submit" (click)="editConfirm()" data-bs-dismiss="modal" style="margin-top: 10px;width: 100%;display: flex;flex-direction: row;justify-content: center;" class="btn btn-primary">
+                          <div class={{btnEdit}}>
+                            ยืนยันแก้ไข
+                          </div>
+                          <div class={{load_edit}}  role="status">
+                            <span class="visually-hidden">Loading...</span>
+                          </div>
+                        </button>
+                        
+                      </form>
+                    </div>                   
+                  </div>
+                </div>
+              </div>
+            </td>
+          </tr>
+           }
+        </tbody>
+      </table>
+</div>
+@if(book.length != 0){
+  <div>
+    <button type="button" style="width: 100%;" (click)="senLinenoltify()"  class="btn btn-warning">
+      <div class={{btnline}}>
+        ส่งเข้าไลน์
+      </div>
+      <div class={{load_line}}  role="status">
+        <span class="visually-hidden" style="width: 100%;display: flex;flex-direction: row;justify-content: center  ;">Loading...</span>
+      </div>
+    </button>
+
+  </div>
+}@else {
+  <div class="alert alert-dark"  style="width: 100%;display: flex;flex-direction: row;justify-content: center;"  role="alert">
+    ไม่มีคิวจอง
+  </div>
+}

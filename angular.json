@@ -22,28 +22,51 @@
             "tsConfig": "tsconfig.app.json",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/manifest.webmanifest",
+              "src/manifest.webmanifest"
             ],
             "styles": [
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "node_modules/ngx-toastr/toastr.css",
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
+            ]
           },
           "configurations": {
             "production": {
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
+                  "maximumWarning": "5mb",
                   "maximumError": "1mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "5mb",
+                  "maximumError": "4mb"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "fileReplacements": [
+                {
+                  "replace": "src/app/environments/environment.ts",
+                  "with": "src/app/environments/environment.prod.ts"
+                }
+              ],
+              "serviceWorker": "ngsw-config.json"
+              
+            },
+            "staging": {
+              "fileReplacements": [
+                {
+                  "replace": "src/app/environments/environment.ts",
+                  "with": "src/app/environments/environment.staging.ts"
+                }
+              ]
+
             },
             "development": {
               "optimization": false,
@@ -81,7 +104,9 @@
             "tsConfig": "tsconfig.spec.json",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/manifest.webmanifest",
+              "src/manifest.webmanifest"
             ],
             "styles": [
               "src/styles.css"
@@ -90,6 +115,9 @@
           }
         }
       }
-    }
+    },
+  },
+  "cli": {
+    "analytics": "3c76ff26-3f22-4824-be5b-2345ecb723e7"
   }
 }

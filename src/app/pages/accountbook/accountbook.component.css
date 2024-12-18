@@ -1,0 +1,12 @@
+.font{
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.show{
+    display: block;
+}
+
+.un-show{
+    display: none;
+}

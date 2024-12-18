@@ -1,0 +1,53 @@
+.datetime{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100vw;
+    padding-top: 20px;
+}
+
+.book-table{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    overflow: visible;
+    padding: 20px;
+    width: 100vw;
+}
+
+.rowdate{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.font{
+    font-size: 10px;
+}
+.font-modal{
+    font-size: 16px;
+}
+
+.table {
+    width: 100%; /* ให้ตารางขยายเต็มจอ */
+    max-width: 100%; /* ป้องกันล้นจอ */
+  }
+
+.show{
+    display: block;
+}
+
+.un-show{
+    display: none;
+}
+
+
+.un-showline{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center  ;
+}
