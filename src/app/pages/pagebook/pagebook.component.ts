@@ -357,22 +357,73 @@ export class PagebookComponent {
     name = name.replace('คะ','');
     name = name.replace('คะ','');
     name = name.replace('คะ','');
-    name = name.replace('ค่า','');
-    name = name.replace('ค่า','');
-    name = name.replace('ค่า','');
-    name = name.replace('ค่า','');
-    name = name.replace('ค่า','');
     name = name.replace('ค่าา','');
     name = name.replace('ค่าา','');
     name = name.replace('ค่าา','');
     name = name.replace('ค่าา','');
     name = name.replace('ค่าา','');
+    name = name.replace('ค่า','');
+    name = name.replace('ค่า','');
+    name = name.replace('ค่า','');
+    name = name.replace('ค่า','');
+    name = name.replace('ค่า','');
     name = name.replace('ครับ','');
     name = name.replace('ครับ','');
     name = name.replace('ครับ','');
     name = name.replace('ครับ','');
     name = name.replace('ครับ','');
     this.bookForm.patchValue({
+      cus_name:name.replace(' ',''),
+      tel:tel.replace(' ','')
+    })
+  }
+  onPasteEventEdit(evt:ClipboardEvent){
+    console.log('copy');
+    evt.preventDefault();
+    const clipboardData = evt.clipboardData || (window as any)['clipboardData'];
+    let pastedText:String = clipboardData.getData('text');
+    this.resualt =[];
+    const lines = pastedText.split('\n')
+    let name="";
+    let tel="";
+    for(const cha of pastedText){
+      if(!isNaN(Number(cha))){
+        if(cha !='-' && cha!=' '){
+        tel +=cha;
+        }
+      }else{
+        if(cha !='-' && cha!=' '){
+          name +=cha;
+        }
+
+      }
+    }
+    name = name.replace('ค่ะ','');
+    name = name.replace('ค่ะ','');
+    name = name.replace('ค่ะ','');
+    name = name.replace('ค่ะ','');
+    name = name.replace('ค่ะ','');
+    name = name.replace('คะ','');
+    name = name.replace('คะ','');
+    name = name.replace('คะ','');
+    name = name.replace('คะ','');
+    name = name.replace('คะ','');
+    name = name.replace('ค่าา','');
+    name = name.replace('ค่าา','');
+    name = name.replace('ค่าา','');
+    name = name.replace('ค่าา','');
+    name = name.replace('ค่าา','');
+    name = name.replace('ค่า','');
+    name = name.replace('ค่า','');
+    name = name.replace('ค่า','');
+    name = name.replace('ค่า','');
+    name = name.replace('ค่า','');
+    name = name.replace('ครับ','');
+    name = name.replace('ครับ','');
+    name = name.replace('ครับ','');
+    name = name.replace('ครับ','');
+    name = name.replace('ครับ','');
+    this.bookEdit.patchValue({
       cus_name:name.replace(' ',''),
       tel:tel.replace(' ','')
     })
@@ -409,16 +460,16 @@ export class PagebookComponent {
     name = name.replace('คะ','');
     name = name.replace('คะ','');
     name = name.replace('คะ','');
-    name = name.replace('ค่า','');
-    name = name.replace('ค่า','');
-    name = name.replace('ค่า','');
-    name = name.replace('ค่า','');
-    name = name.replace('ค่า','');
     name = name.replace('ค่าา','');
     name = name.replace('ค่าา','');
     name = name.replace('ค่าา','');
     name = name.replace('ค่าา','');
     name = name.replace('ค่าา','');
+    name = name.replace('ค่า','');
+    name = name.replace('ค่า','');
+    name = name.replace('ค่า','');
+    name = name.replace('ค่า','');
+    name = name.replace('ค่า','');
     name = name.replace('ครับ','');
     name = name.replace('ครับ','');
     name = name.replace('ครับ','');
@@ -429,6 +480,9 @@ export class PagebookComponent {
       tel:tel.replace(' ','')
     })
   }
+
+
+  
 
   onSubmit(){
 
